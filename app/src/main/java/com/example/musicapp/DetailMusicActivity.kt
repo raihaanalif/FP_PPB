@@ -42,7 +42,6 @@ class DetailMusicActivity : AppCompatActivity() {
     var progressDialog: ProgressDialog? = null
     var mHandler: Handler? = null
     var mRunnable: Runnable? = null
-    var rotate: RotateAnimation? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,10 +57,8 @@ class DetailMusicActivity : AppCompatActivity() {
                     or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
         }
 
-        if (Build.VERSION.SDK_INT >= 21) {
-            setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
-            window.statusBarColor = Color.TRANSPARENT
-        }
+        setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
+        window.statusBarColor = Color.TRANSPARENT
 
         toolbar_detail.title = null
         setSupportActionBar(toolbar_detail)
@@ -86,7 +83,7 @@ class DetailMusicActivity : AppCompatActivity() {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imgCover)
 
-            imgPause.visibility = View.GONE
+            imgPause.visibility = View.INVISIBLE
             imgPlay.visibility = View.VISIBLE
 
             //Method get data
@@ -118,11 +115,20 @@ class DetailMusicActivity : AppCompatActivity() {
 
                             val temp = playerArray.getJSONObject(i)
 
-                            val title = temp.getString("title")
+                            val title = temp.getString("judulmusic")
                             tvTitleMusic!!.text = title
 
-                            val band = temp.getString("band")
+                            val band = temp.getString("namaband")
                             tvBand!!.text = band
+
+                            val img = temp.getString("coverartikel")
+                            //Get Image
+                            Glide.with(this@DetailMusicActivity)
+                                .load(img)
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .centerCrop()
+                                .placeholder(R.drawable.ic_no_image_foreground)
+                                .into(imgCover)
 
                             val urlMusic = temp.getString("linkmp3")
                             val mediaPlayer = MediaPlayer()
@@ -130,14 +136,14 @@ class DetailMusicActivity : AppCompatActivity() {
                             imgPlay!!.setOnClickListener {
 
                                 //set Rotate Cover Album
-                                rotate = RotateAnimation(0F, 360F,
-                                    Animation.RELATIVE_TO_SELF, 0.5f,
-                                    Animation.RELATIVE_TO_SELF, 0.5f)
-                                rotate!!.duration = 15000
-                                rotate!!.interpolator = LinearInterpolator()
-                                rotate!!.repeatCount = Animation.INFINITE
+//                                rotate = RotateAnimation(0F, 360F,
+//                                    Animation.RELATIVE_TO_SELF, 0.5f,
+//                                    Animation.RELATIVE_TO_SELF, 0.5f)
+//                                rotate!!.duration = 15000
+//                                rotate!!.interpolator = LinearInterpolator()
+//                                rotate!!.repeatCount = Animation.INFINITE
 
-                                imgCover!!.startAnimation(rotate)
+//                                imgCover!!.startAnimation(rotate)
 
                                 try {
                                     mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC)
@@ -148,7 +154,7 @@ class DetailMusicActivity : AppCompatActivity() {
                                     e.printStackTrace()
                                 }
 
-                                imgPlay.visibility = View.GONE
+                                imgPlay.visibility = View.INVISIBLE
                                 imgPause!!.visibility = View.VISIBLE
                                 seekBar!!.max = mediaPlayer.duration / 1000
 
@@ -160,18 +166,18 @@ class DetailMusicActivity : AppCompatActivity() {
                                         TimeUnit.MILLISECONDS.toSeconds(duration.toLong()) -
                                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration.toLong()))
                                     )
-                                    seekBar!!.progress = mCurrentPosition
+                                    seekBar.progress = mCurrentPosition
                                     mHandler!!.postDelayed(mRunnable!!, 1000)
                                     tvTime!!.text = time
                                 }
                                 mHandler!!.postDelayed(mRunnable!!, 1000)
                             }
                             imgPause!!.setOnClickListener {
-                                rotate!!.cancel()
+//                                rotate!!.cancel()
                                 mediaPlayer.stop()
                                 mediaPlayer.reset()
                                 imgPlay.visibility = View.VISIBLE
-                                imgPause.visibility = View.GONE
+                                imgPause.visibility = View.INVISIBLE
                             }
                         }
                     } catch (e: JSONException) {

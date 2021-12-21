@@ -20,9 +20,10 @@ import com.example.musicapp.model.ModelMusic
 import com.example.musicapp.network.Api
 import org.json.JSONException
 import org.json.JSONObject
+import com.example.musicapp.MusicAdapter.onSelectData
 
 @Suppress("DEPRECATION")
-class MusicPlayerActivity : AppCompatActivity(), MusicAdapter.onSelectData {
+class MusicPlayerActivity : AppCompatActivity(), onSelectData {
 
     private var musicAdapter: MusicAdapter? = null
     var progressDialog: ProgressDialog? = null
@@ -47,7 +48,9 @@ class MusicPlayerActivity : AppCompatActivity(), MusicAdapter.onSelectData {
         progressDialog!!.setCancelable(false)
         progressDialog!!.setMessage("Is Displaying a data")
 
-        rvListMusic.setHasFixedSize(true)
+//        rvListMusic.setHasFixedSize(true)
+//        rvListMusic.layoutManager =
+//            LinearLayoutManager(this)
 
         //get data Music
         getListMusic()
@@ -64,15 +67,19 @@ class MusicPlayerActivity : AppCompatActivity(), MusicAdapter.onSelectData {
                         progressDialog!!.dismiss()
                         val playerArray = response!!.getJSONArray("post")
                         for(i in 0 until playerArray.length()){
-                            if (i < 3){
+                            if (i > 3){
                                 val temp = playerArray.getJSONObject(i)
                                 val dataApi = ModelMusic()
                                 dataApi.strId = temp.getString("id")
                                 dataApi.cover = temp.getString("coverartikel")
-                                dataApi.strTitle = temp.getString("judulmusic")
                                 dataApi.strBand = temp.getString("namaband")
+                                dataApi.strTitle = temp.getString("judulmusic")
                                 modelMusic.add(dataApi)
                                 showPlaylist()
+//                                Toast.makeText(
+//                                    this@MusicPlayerActivity,
+//                                    dataApi.strTitle, Toast.LENGTH_SHORT
+//                                ).show()
                             }
                         }
                     }catch (e: JSONException){
@@ -91,8 +98,11 @@ class MusicPlayerActivity : AppCompatActivity(), MusicAdapter.onSelectData {
             })
     }
     private fun showPlaylist(){
+//        Toast.makeText(this@MusicPlayerActivity, "BERHASIL",
+//            Toast.LENGTH_SHORT).show()
         setContentView(R.layout.activity_main)
         val rvListMusic = findViewById<RecyclerView>(R.id.rvListMusic)
+        rvListMusic.setHasFixedSize(true)
         rvListMusic.layoutManager =
             LinearLayoutManager(this)
         musicAdapter = MusicAdapter(this@MusicPlayerActivity, modelMusic, this)

@@ -44,6 +44,8 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         final ModelMusic data = items.get(position);
 
+        holder.tvBand.setText(data.strBand);
+        holder.tvTitleMusic.setText(data.strTitle);
         //Get Image
         Glide.with(mContext)
                 .load(data.cover)
@@ -52,14 +54,8 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                 .placeholder(R.drawable.ic_no_image_foreground)
                 .into(holder.imgCover);
 
-        holder.tvBand.setText(data.strBand);
-        holder.tvTitleMusic.setText(data.strTitle);
-        holder.cvListMusic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onSelectData.onSelected(data);
-            }
-        });
+
+        holder.cvListMusic.setOnClickListener(view -> onSelectData.onSelected(data));
     }
 
     @Override
@@ -80,7 +76,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
             cvListMusic = itemView.findViewById(R.id.cvListMusic);
             imgCover = itemView.findViewById(R.id.imgCover);
             tvBand = itemView.findViewById(R.id.tvBand);
-            tvTitleMusic = itemView.findViewById(R.id.tvTitleMusic);
+            tvTitleMusic = itemView.findViewById(R.id.tvTitle);
         }
     }
 
