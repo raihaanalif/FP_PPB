@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="light_blue_5">#E1F5FE</color>
+    <color name="light_blue_4">#B3E5FC</color>
+    <color name="light_blue_3">#81D4FA</color>
+    <color name="light_blue_2">#4FC3F7</color>
+    <color name="light_blue_1">#29B6F6</color>
+    <color name="light_blue">#03A9F4</color>
+    <color name="light_blue_D1">#039BE5</color>
+    <color name="light_blue_D2">#0288D1</color>
+    <color name="light_blue_D3">#0277BD</color>
+    <color name="light_blue_D4">#01579B</color>
+    <color name="light_blue_accent1">#80D8FF</color>
+    <color name="light_blue_accent2">#40C4FF</color>
+    <color name="light_blue_accent3">#00B0FF</color>
+    <color name="light_blue_accent4">#0091EA</color>
+    <color name="red">#f44336</color>
+    <color name="red_light">#ef9a9a</color>
+    <color name="red_dark">#b71c1c</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>
