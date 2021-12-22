@@ -1,4 +1,4 @@
-package com.example.musicapp
+package com.example.musicapp.auth
 
 import android.app.Activity
 import android.content.Intent
@@ -12,6 +12,8 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.musicapp.MusicPlayerActivity
+import com.example.musicapp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -34,7 +36,7 @@ class RegisterActivity : AppCompatActivity() {
                     or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
         }
 
-        RegisterActivity.setWindowFlag(
+        setWindowFlag(
             this,
             WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
             false

@@ -24,12 +24,13 @@ import com.example.musicapp.network.Api
 import org.json.JSONException
 import org.json.JSONObject
 import com.example.musicapp.MusicAdapter.onSelectData
+import com.example.musicapp.auth.LoginActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 
 @Suppress("DEPRECATION")
 class MusicPlayerActivity : AppCompatActivity(), onSelectData {
-
+    lateinit var abdt: ActionBarDrawerToggle
     private var musicAdapter: MusicAdapter? = null
     var progressDialog: ProgressDialog? = null
     var modelMusic: MutableList<ModelMusic> = ArrayList()
@@ -39,21 +40,25 @@ class MusicPlayerActivity : AppCompatActivity(), onSelectData {
         setContentView(R.layout.activity_main)
 
         val dl = findViewById<DrawerLayout>(R.id.drawer)
-        val abdt = ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close)
+        abdt = ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close)
         abdt.isDrawerIndicatorEnabled = true
 
         dl.addDrawerListener(abdt)
         abdt.syncState()
 
-        val nav_view = findViewById<NavigationView>(R.id.nav_view)
-        nav_view.setNavigationItemSelectedListener{
+        val nav = findViewById<NavigationView>(R.id.nav_view)
+        nav.setNavigationItemSelectedListener{
             when(it.itemId){
-                R.id.myaccount->Toast.makeText(this, "MyAccount Clicked", Toast.LENGTH_SHORT).show()
+                R.id.myaccount->{
+                    val intent = Intent(this@MusicPlayerActivity, ProfileActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
                 R.id.lyrics->Toast.makeText(this, "Find Lyric Clicked", Toast.LENGTH_SHORT).show()
                 R.id.signout->{
                     FirebaseAuth.getInstance().signOut()
 
-                    val intent = Intent(this, LoginActivity::class.java)
+                    val intent = Intent(this@MusicPlayerActivity, LoginActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                     finish()
@@ -81,6 +86,12 @@ class MusicPlayerActivity : AppCompatActivity(), onSelectData {
 
         //get data Music
         getListMusic()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (abdt.onOptionsItemSelected(item)) return true
+
+        return onOptionsItemSelected(item)
     }
 
     private fun getListMusic() {

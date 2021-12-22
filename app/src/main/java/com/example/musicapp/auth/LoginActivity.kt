@@ -1,4 +1,4 @@
-package com.example.musicapp
+package com.example.musicapp.auth
 
 import android.app.Activity
 import android.content.Intent
@@ -12,6 +12,8 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.musicapp.MusicPlayerActivity
+import com.example.musicapp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 
@@ -24,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.login_activity)
+        setContentView(R.layout.activity_login)
 
         val eEmail = findViewById<EditText>(R.id.email)
         val ePassword = findViewById<EditText>(R.id.password)
@@ -34,7 +36,7 @@ class LoginActivity : AppCompatActivity() {
                     or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
         }
 
-        LoginActivity.setWindowFlag(
+        setWindowFlag(
             this,
             WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
             false
