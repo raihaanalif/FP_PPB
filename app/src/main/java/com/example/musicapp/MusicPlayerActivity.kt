@@ -30,7 +30,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 @Suppress("DEPRECATION")
 class MusicPlayerActivity : AppCompatActivity(), onSelectData {
-    lateinit var abdt: ActionBarDrawerToggle
+    private lateinit var abdt: ActionBarDrawerToggle
     private var musicAdapter: MusicAdapter? = null
     var progressDialog: ProgressDialog? = null
     var modelMusic: MutableList<ModelMusic> = ArrayList()
@@ -41,13 +41,13 @@ class MusicPlayerActivity : AppCompatActivity(), onSelectData {
 
         val dl = findViewById<DrawerLayout>(R.id.drawer)
         abdt = ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close)
-        abdt.isDrawerIndicatorEnabled = true
 
         dl.addDrawerListener(abdt)
         abdt.syncState()
-
         val nav = findViewById<NavigationView>(R.id.nav_view)
-        nav.setNavigationItemSelectedListener{
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        nav.setNavigationItemSelectedListener(){
             when(it.itemId){
                 R.id.myaccount->{
                     val intent = Intent(this@MusicPlayerActivity, ProfileActivity::class.java)
@@ -91,7 +91,7 @@ class MusicPlayerActivity : AppCompatActivity(), onSelectData {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (abdt.onOptionsItemSelected(item)) return true
 
-        return onOptionsItemSelected(item)
+        return super.onOptionsItemSelected(item)
     }
 
     private fun getListMusic() {

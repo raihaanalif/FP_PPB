@@ -5,7 +5,10 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:id="@+id/drawer">
+    android:id="@+id/drawer"
+    tools:context=".MusicPlayerActivity"
+    tools:openDrawer="start"
+    android:fitsSystemWindows="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -71,7 +74,8 @@
         android:id="@+id/nav_view"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/navigation_menu">
+        app:menu="@menu/navigation_menu"
+        android:fitsSystemWindows="true">
 
     </com.google.android.material.navigation.NavigationView>
 
