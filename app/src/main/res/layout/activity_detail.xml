@@ -52,18 +52,18 @@
                     android:layout_height="100dp"
                     android:progressBackgroundTint="@color/light_blue"
                     android:progressTint="@color/light_blue_D1"
-                    android:progressBackgroundTintMode="src_atop"
-                    android:progressDrawable="@color/light_blue" />
+                    android:progressBackgroundTintMode="screen"
+                    android:progressDrawable="@color/light_blue"/>
 
                 <TextView
                     android:id="@+id/tvTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="-40dp"
+                    android:layout_marginTop="-30dp"
                     android:text="0:00"
                     android:textColor="@android:color/black"
-                    android:textSize="12sp" />
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
@@ -94,31 +94,29 @@
 
             </LinearLayout>
 
-            <FrameLayout
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_below="@id/llDesc"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="40dp"
-                android:background="@drawable/ic_baseline_circle_24">
+                <FrameLayout
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_below="@id/llDesc"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/ic_baseline_circle_24">
 
-                <ImageView
-                    android:id="@+id/imgPlay"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_baseline_play_arrow_24" />
+                    <ImageView
+                        android:id="@+id/imgPlay"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_baseline_play_arrow_24" />
 
-                <ImageView
-                    android:id="@+id/imgPause"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_baseline_pause_24"
-                    android:visibility="invisible"/>
-
-            </FrameLayout>
-
+                    <ImageView
+                        android:id="@+id/imgPause"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_baseline_pause_24"
+                        android:visibility="invisible"/>
+                </FrameLayout>
         </RelativeLayout>
 
     </androidx.core.widget.NestedScrollView>

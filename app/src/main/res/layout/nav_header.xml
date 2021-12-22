@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:background="@color/light_blue_D4">
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@mipmap/account"
+        android:layout_marginStart="20dp"
+        android:id="@+id/profile_account"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginLeft="20dp"
+        android:text="Account Name"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:fontFamily="sans-serif"
+        android:id="@+id/account_name"/>
+
+</LinearLayout>

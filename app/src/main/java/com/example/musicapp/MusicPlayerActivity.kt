@@ -7,11 +7,14 @@ import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.drawerlayout.widget.DrawerLayout
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
@@ -21,6 +24,8 @@ import com.example.musicapp.network.Api
 import org.json.JSONException
 import org.json.JSONObject
 import com.example.musicapp.MusicAdapter.onSelectData
+import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 @Suppress("DEPRECATION")
 class MusicPlayerActivity : AppCompatActivity(), onSelectData {
@@ -33,7 +38,29 @@ class MusicPlayerActivity : AppCompatActivity(), onSelectData {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val rvListMusic = findViewById<RecyclerView>(R.id.rvListMusic)
+        val dl = findViewById<DrawerLayout>(R.id.drawer)
+        val abdt = ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close)
+        abdt.isDrawerIndicatorEnabled = true
+
+        dl.addDrawerListener(abdt)
+        abdt.syncState()
+
+        val nav_view = findViewById<NavigationView>(R.id.nav_view)
+        nav_view.setNavigationItemSelectedListener{
+            when(it.itemId){
+                R.id.myaccount->Toast.makeText(this, "MyAccount Clicked", Toast.LENGTH_SHORT).show()
+                R.id.lyrics->Toast.makeText(this, "Find Lyric Clicked", Toast.LENGTH_SHORT).show()
+                R.id.signout->{
+                    FirebaseAuth.getInstance().signOut()
+
+                    val intent = Intent(this, LoginActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    finish()
+                }
+            }
+            true
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE

@@ -46,7 +46,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
 
         holder.tvBand.setText(data.strBand);
         holder.tvTitleMusic.setText(data.strTitle);
-        //Get Image
+
         Glide.with(mContext)
                 .load(data.cover)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

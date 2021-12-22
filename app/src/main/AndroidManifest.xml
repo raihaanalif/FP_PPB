@@ -12,10 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MusicApp">
         <activity
+            android:name=".RegisterActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+        android:name=".MusicPlayerActivity"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
             android:name=".DetailMusicActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
-            android:name=".MusicPlayerActivity"
+            android:name=".LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>

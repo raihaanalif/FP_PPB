@@ -3,6 +3,7 @@ package com.example.musicapp
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ProgressDialog
+import android.content.Intent
 import android.graphics.Color
 import android.media.AudioManager
 import android.media.MediaPlayer
@@ -12,9 +13,6 @@ import android.os.Handler
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
-import android.view.animation.Animation
-import android.view.animation.LinearInterpolator
-import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
@@ -66,9 +64,9 @@ class DetailMusicActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         progressDialog = ProgressDialog(this)
-        progressDialog!!.setTitle("Mohon Tunggu")
+        progressDialog!!.setTitle("Please Wait....")
         progressDialog!!.setCancelable(false)
-        progressDialog!!.setMessage("Sedang menampilkan data...")
+        progressDialog!!.setMessage("System will display your music, enjoy")
 
         mHandler = Handler()
 
@@ -101,6 +99,7 @@ class DetailMusicActivity : AppCompatActivity() {
         val imgPause = findViewById<ImageView>(R.id.imgPause)
         val imgCover = findViewById<ImageView>(R.id.imgCover)
         val seekBar = findViewById<SeekBar>(R.id.seekBar)
+        val toolbar_details = findViewById<Toolbar>(R.id.toolbar_detail)
 
         AndroidNetworking.get(Api.DetailMusic)
             .addPathParameter("id", idLagu)
@@ -132,24 +131,19 @@ class DetailMusicActivity : AppCompatActivity() {
 
                             val urlMusic = temp.getString("linkmp3")
                             val mediaPlayer = MediaPlayer()
+                            var currentPosition = mediaPlayer.currentPosition/1000
 
                             imgPlay!!.setOnClickListener {
 
-                                //set Rotate Cover Album
-//                                rotate = RotateAnimation(0F, 360F,
-//                                    Animation.RELATIVE_TO_SELF, 0.5f,
-//                                    Animation.RELATIVE_TO_SELF, 0.5f)
-//                                rotate!!.duration = 15000
-//                                rotate!!.interpolator = LinearInterpolator()
-//                                rotate!!.repeatCount = Animation.INFINITE
-
-//                                imgCover!!.startAnimation(rotate)
-
                                 try {
-                                    mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC)
-                                    mediaPlayer.setDataSource(urlMusic)
-                                    mediaPlayer.prepare()
-                                    mediaPlayer.start()
+                                    if(currentPosition == 0){
+                                        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC)
+                                        mediaPlayer.setDataSource(urlMusic)
+                                        mediaPlayer.prepare()
+                                        mediaPlayer.start()
+                                    }else{
+                                        mediaPlayer.start()
+                                    }
                                 } catch (e: IOException) {
                                     e.printStackTrace()
                                 }
@@ -161,7 +155,8 @@ class DetailMusicActivity : AppCompatActivity() {
                                 mRunnable = Runnable {
                                     val mCurrentPosition = mediaPlayer.currentPosition / 1000
                                     val duration = mediaPlayer.duration
-                                    @SuppressLint("DefaultLocale") val time = String.format("%02d min, %02d sec",
+                                    @SuppressLint("DefaultLocale")
+                                    val time = String.format("%02d min, %02d sec",
                                         TimeUnit.MILLISECONDS.toMinutes(duration.toLong()),
                                         TimeUnit.MILLISECONDS.toSeconds(duration.toLong()) -
                                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration.toLong()))
@@ -173,12 +168,21 @@ class DetailMusicActivity : AppCompatActivity() {
                                 mHandler!!.postDelayed(mRunnable!!, 1000)
                             }
                             imgPause!!.setOnClickListener {
-//                                rotate!!.cancel()
-                                mediaPlayer.stop()
-                                mediaPlayer.reset()
+                                mediaPlayer.pause()
+                                currentPosition = mediaPlayer.currentPosition / 1000
                                 imgPlay.visibility = View.VISIBLE
                                 imgPause.visibility = View.INVISIBLE
                             }
+
+
+                            toolbar_details.setOnClickListener{
+                                mediaPlayer.stop()
+                                mediaPlayer.reset()
+                                intent = Intent(this@DetailMusicActivity, MusicPlayerActivity::class.java)
+                                startActivity(intent)
+                            }
+
+
                         }
                     } catch (e: JSONException) {
                         e.printStackTrace()
