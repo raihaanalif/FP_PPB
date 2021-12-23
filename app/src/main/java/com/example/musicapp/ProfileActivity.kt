@@ -5,8 +5,10 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -27,14 +29,34 @@ class ProfileActivity : AppCompatActivity(){
       val phone = findViewById<EditText>(R.id.eTelp)
       val name = findViewById<EditText>(R.id.eNama)
       val email = findViewById<EditText>(R.id.email)
-
+      val submit = findViewById<Button>(R.id.submit)
       val img = findViewById<ImageView>(R.id.account_image)
 
       mAuth = FirebaseAuth.getInstance()
 
+      val user = mAuth.currentUser
+
+      name.setText(user!!.displayName)
+
+      if(user.phoneNumber .isNullOrEmpty()){
+         phone.setText("Enter ur phone number")
+      }else{
+         phone.setText(user.phoneNumber)
+      }
+
+      submit.setOnClickListener{
+         val ename = name.text.toString().trim()
+
+         if(ename.isEmpty()){
+            name.error = "Nama data must filled"
+            name.requestFocus()
+            return@setOnClickListener
+         }
+      }
+
       img.setOnClickListener{
          val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-         startActivityForResult(intent, GALLERY_INTENT_CODE)
+         startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_INTENT_CODE)
       }
    }
 
@@ -62,9 +84,11 @@ class ProfileActivity : AppCompatActivity(){
                   setContentView(R.layout.activity_profile)
                   val img = findViewById<ImageView>(R.id.account_image)
                   img.setImageBitmap(imgBitmap)
+                  Toast.makeText(this, "Picture Upload", Toast.LENGTH_SHORT).show()
                }
             }
-         }
+         }else
+            Toast.makeText(this, "Failed to Upload", Toast.LENGTH_SHORT).show()
       }
 
    }

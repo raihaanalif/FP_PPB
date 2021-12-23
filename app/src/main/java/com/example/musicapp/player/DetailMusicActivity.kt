@@ -1,4 +1,4 @@
-package com.example.musicapp
+package com.example.musicapp.player
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -25,6 +25,7 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.musicapp.R
 import com.example.musicapp.model.ModelMusic
 import com.example.musicapp.network.Api
 import org.json.JSONException

@@ -1,4 +1,4 @@
-package com.example.musicapp
+package com.example.musicapp.player
 
 import android.app.Activity
 import android.app.ProgressDialog
@@ -7,30 +7,28 @@ import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.WindowManager
+import android.widget.Button
 import android.widget.Toast
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.drawerlayout.widget.DrawerLayout
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
+import com.example.musicapp.R
+import com.example.musicapp.adapter.MusicAdapter
 import com.example.musicapp.model.ModelMusic
 import com.example.musicapp.network.Api
 import org.json.JSONException
 import org.json.JSONObject
-import com.example.musicapp.MusicAdapter.onSelectData
+import com.example.musicapp.adapter.MusicAdapter.onSelectData
 import com.example.musicapp.auth.LoginActivity
-import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 
 @Suppress("DEPRECATION")
 class MusicPlayerActivity : AppCompatActivity(), onSelectData {
-    private lateinit var abdt: ActionBarDrawerToggle
     private var musicAdapter: MusicAdapter? = null
     var progressDialog: ProgressDialog? = null
     var modelMusic: MutableList<ModelMusic> = ArrayList()
@@ -38,33 +36,14 @@ class MusicPlayerActivity : AppCompatActivity(), onSelectData {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val so = findViewById<Button>(R.id.signout)
 
-        val dl = findViewById<DrawerLayout>(R.id.drawer)
-        abdt = ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close)
-
-        dl.addDrawerListener(abdt)
-        abdt.syncState()
-        val nav = findViewById<NavigationView>(R.id.nav_view)
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        nav.setNavigationItemSelectedListener(){
-            when(it.itemId){
-                R.id.myaccount->{
-                    val intent = Intent(this@MusicPlayerActivity, ProfileActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
-                R.id.lyrics->Toast.makeText(this, "Find Lyric Clicked", Toast.LENGTH_SHORT).show()
-                R.id.signout->{
-                    FirebaseAuth.getInstance().signOut()
-
-                    val intent = Intent(this@MusicPlayerActivity, LoginActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
-                    finish()
-                }
-            }
-            true
+        so.setOnClickListener{
+            FirebaseAuth.getInstance().signOut()
+            val intent = Intent(this@MusicPlayerActivity, LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finish()
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -88,11 +67,6 @@ class MusicPlayerActivity : AppCompatActivity(), onSelectData {
         getListMusic()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (abdt.onOptionsItemSelected(item)) return true
-
-        return super.onOptionsItemSelected(item)
-    }
 
     private fun getListMusic() {
         progressDialog!!.show()
@@ -143,7 +117,11 @@ class MusicPlayerActivity : AppCompatActivity(), onSelectData {
         rvListMusic.setHasFixedSize(true)
         rvListMusic.layoutManager =
             LinearLayoutManager(this)
-        musicAdapter = MusicAdapter(this@MusicPlayerActivity, modelMusic, this)
+        musicAdapter = MusicAdapter(
+            this@MusicPlayerActivity,
+            modelMusic,
+            this
+        )
         rvListMusic.adapter = musicAdapter
     }
 

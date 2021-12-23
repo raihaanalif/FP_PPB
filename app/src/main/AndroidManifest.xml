@@ -3,6 +3,8 @@
     package="com.example.musicapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -12,13 +14,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MusicApp">
         <activity
+            android:name=".ProfileActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".lyric.FindLyricActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".DetailLyricsActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
             android:name=".auth.RegisterActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
-        android:name=".MusicPlayerActivity"
+        android:name=".player.MusicPlayerActivity"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
-            android:name=".DetailMusicActivity"
+            android:name=".player.DetailMusicActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".auth.LoginActivity"

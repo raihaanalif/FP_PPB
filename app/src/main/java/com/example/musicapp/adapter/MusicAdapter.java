@@ -1,4 +1,4 @@
-package com.example.musicapp;
+package com.example.musicapp.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.musicapp.R;
 import com.example.musicapp.model.ModelMusic;
 
 import java.util.List;

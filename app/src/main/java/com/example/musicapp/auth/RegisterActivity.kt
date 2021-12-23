@@ -12,7 +12,8 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.musicapp.MusicPlayerActivity
+import com.example.musicapp.ProfileActivity
+import com.example.musicapp.player.MusicPlayerActivity
 import com.example.musicapp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -27,7 +28,6 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        val eName = findViewById<EditText>(R.id.name)
         val eEmail = findViewById<EditText>(R.id.email)
         val ePassword = findViewById<EditText>(R.id.password)
 
@@ -54,14 +54,10 @@ class RegisterActivity : AppCompatActivity() {
 
         val reg = findViewById<Button>(R.id.reg_button)
         reg.setOnClickListener{
-            val name: String = eName.text.toString()
             val email: String = eEmail.text.toString()
             val password: String = ePassword.text.toString()
 
-            if(name == ""){
-                Toast.makeText(this@RegisterActivity, "Please enter your name",
-                    Toast.LENGTH_SHORT).show()
-            }else if (email == ""){
+            if (email == ""){
                 Toast.makeText(this@RegisterActivity, "Please enter your email",
                     Toast.LENGTH_SHORT).show()
             }else if(password == ""){
@@ -77,10 +73,6 @@ class RegisterActivity : AppCompatActivity() {
 
                             val userHashMap = HashMap<String, Any>()
                             userHashMap["uid"] = firebaseUserID
-                            userHashMap["name"] = name
-                            userHashMap["profile"] = "https://firebasestorage.googleapis.com/v0/b/mymusicapp-c7078.appspot.com/o/photo.png?alt=media&token=64e2aac2-cdb5-4623-86b1-934d94ae87a6"
-                            userHashMap["cover"] = "https://firebasestorage.googleapis.com/v0/b/mymusicapp-c7078.appspot.com/o/cover.jpg?alt=media&token=e086baab-ca07-4202-b0fc-2f6a5c8f049d"
-
                             refUsers.updateChildren(userHashMap)
                                 .addOnCompleteListener { task ->
                                     if(task.isSuccessful){
@@ -99,6 +91,17 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onStart() {
+        super.onStart()
+        if(mAuth.currentUser != null){
+            Intent(this, MusicPlayerActivity::class.java).also{
+                    intent -> intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+            }
+        }
+    }
+
     companion object {
         fun setWindowFlag(activity: Activity, bits: Int, on: Boolean) {
             val win = activity.window
