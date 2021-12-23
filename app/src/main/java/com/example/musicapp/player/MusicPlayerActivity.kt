@@ -3,6 +3,7 @@ package com.example.musicapp.player
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -38,13 +39,6 @@ class MusicPlayerActivity : AppCompatActivity(), onSelectData {
         setContentView(R.layout.activity_main)
         val so = findViewById<Button>(R.id.signout)
 
-        so.setOnClickListener{
-            FirebaseAuth.getInstance().signOut()
-            val intent = Intent(this@MusicPlayerActivity, LoginActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-            finish()
-        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -142,5 +136,15 @@ class MusicPlayerActivity : AppCompatActivity(), onSelectData {
             }
             win.attributes = winParams
         }
+    }
+
+    fun signout(view: View) {
+        FirebaseAuth.getInstance().signOut()
+        val intent = Intent(this@MusicPlayerActivity, LoginActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        finish()
+
+//        Toast.makeText(this, "TEST", Toast.LENGTH_SHORT).show()
     }
 }
