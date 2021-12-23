@@ -188,14 +188,14 @@ class DetailMusicActivity : AppCompatActivity() {
                     } catch (e: JSONException) {
                         e.printStackTrace()
                         Toast.makeText(this@DetailMusicActivity,
-                            "Gagal menampilkan data!", Toast.LENGTH_SHORT).show()
+                            "Failed to Display a data", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onError(anError: ANError) {
                     progressDialog!!.dismiss()
                     Toast.makeText(this@DetailMusicActivity,
-                        "Tidak ada jaringan internet!", Toast.LENGTH_SHORT).show()
+                        "Your internet connection is unstable", Toast.LENGTH_SHORT).show()
                 }
             })
     }

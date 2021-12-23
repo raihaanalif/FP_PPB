@@ -53,9 +53,6 @@ class MusicPlayerActivity : AppCompatActivity(), onSelectData {
         progressDialog!!.setCancelable(false)
         progressDialog!!.setMessage("Is Displaying a data")
 
-//        rvListMusic.setHasFixedSize(true)
-//        rvListMusic.layoutManager =
-//            LinearLayoutManager(this)
 
         //get data Music
         getListMusic()

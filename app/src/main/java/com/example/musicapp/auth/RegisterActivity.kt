@@ -92,15 +92,15 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        if(mAuth.currentUser != null){
-            Intent(this, MusicPlayerActivity::class.java).also{
-                    intent -> intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-            }
-        }
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        if(mAuth.currentUser != null){
+//            Intent(this, MusicPlayerActivity::class.java).also{
+//                    intent -> intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                startActivity(intent)
+//            }
+//        }
+//    }
 
     companion object {
         fun setWindowFlag(activity: Activity, bits: Int, on: Boolean) {
